@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 1</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script>
+        const handleResponse = async (response, method) => {
+          const content = document.getElementById('content');
+          
+          switch(response.status) {
+            case 200: //Success
+              content.innerHTML = `<b>Success</b>`;
+              break;
+              case 201: //Get User - New User Created
+              content.innerHTML = `<b>Created</b>`;
+              break;
+              case 204: //Get User - User Updated
+              content.innerHTML = `<b>Updated (No Content)</b>`;
+              break;
+            case 400: //Bad Request
+              content.innerHTML = `<b>Bad Request</b>`;
+              break;
+            case 404: //Not Found
+              content.innerHTML = `<b>Not Found</b>`;
+              break;
+            default:
+              content.innerHTML = `<p>Status Code not Implemented By Client</p>`;
+              break;
+          }
+    
+          const responseData = await response.JSON();
+          content.innerHTML += `<h3>${JSON.stringify(responseData)}</h3>`;
+        };
+    
+        // send fetch request
+        const sendFetchRequest = async (url, acceptedType, method, body=null) => {
+          const options = {
+            method: method,
+            headers: { 'Accept': acceptedType, ...(body && {'Content-Type': 'application/json'}) },
+            ...(body && {body: JSON.stringify(body)})
+          };
+    
+          try {
+            const response = await fetch(url, options);
+            return handleResponse(response);
+          } catch (error) {
+            document.getElementById('content').innerHTML = `<b>Network Error ${error.message}`;
+          }
+        }
+    
+        // init
+        const init = () => {
+
+            const button = document.querySelector("#test-button");
+            
+            button.onclick = () => { sendFetchRequest("/test", "application/json", "GET"); };
+
+        //   addButton.onclick = () => { sendFetchRequest("/addUser", "application/json", "POST", {name, age}); };
+        //   getButton.onclick = () => { sendFetchRequest(urlSelector.value, "application/json", methodSelector.value.toUpperCase()); };
+    
+        }
+        window.onload = init;
+      </script>
+</head>
+<body>
+    <section>
+        <button id="test-button">Send Request</button>
+    </section>
+    <section id="content">
+    </section>
+</body>
+</html>

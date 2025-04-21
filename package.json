@@ -1,0 +1,17 @@
+{
+  "name": "project-1",
+  "version": "1.0.0",
+  "description": "430 Project 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Tests complete\"",
+    "start": "node ./src/server.js"
+  },
+  "author": "Rose Silletto",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.31.0"
+  }
+}
