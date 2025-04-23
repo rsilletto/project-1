@@ -1,5 +1,8 @@
-
+const fs = require('fs');
 const users = {};
+
+const data = JSON.parse(fs.readFileSync(`${__dirname}/books.json`));
+//console.log(data.filter(x => x.country === 'Italy'));
 
 const writeResponse = (request, response, statusCode, data) => {
   response.writeHead(statusCode, { 'Content-Type': 'application/json' });
@@ -19,13 +22,10 @@ const testRequest = (request, response) => {
         message: message,
     }
 
-    response.writeHead(200, { 'Content-Type': 'application/json' });
+    //response.writeHead(200, { 'Content-Type': 'application/json' });
 
     const responseMessage = JSON.stringify(responseData);
-
-  if (request.method === 'GET') {
-    response.write(responseMessage);
-  }
+    writeResponse(request, response, 200, responseMessage);
 }
 
 const getUsers = (request, response) => {
