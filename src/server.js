@@ -16,6 +16,7 @@ const getGrabbers = {
 
 const postHandlers = {
   '/addUser': api.addUser,
+  '/addBook': api.addBook,
 };
 
 const handlePost = (request, response, poster) => {

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const users = {};
+// const users = {};
 
 const data = JSON.parse(fs.readFileSync(`${__dirname}/books.json`));
 //console.log(data.filter(x => x.country === 'Italy'));
@@ -20,28 +20,13 @@ const testRequest = (request, response) => {
 
     const responseData = {
         message: message,
+        id: 'test',
+        data: data,
     }
-
-    //response.writeHead(200, { 'Content-Type': 'application/json' });
 
     const responseMessage = JSON.stringify(responseData);
     writeResponse(request, response, 200, responseMessage);
 }
-
-const getUsers = (request, response) => {
-  const responseData = {
-    users,
-  };
-
-  const responseMessage = JSON.stringify(responseData);
-
-  response.writeHead(200, { 'Content-Type': 'application/json' });
-
-  if (request.method !== 'HEAD') {
-    response.write(responseMessage);
-  }
-  response.end();
-};
 
 const notFound = (request, response) => {
   let message = '';
@@ -53,27 +38,22 @@ const notFound = (request, response) => {
 
   const responseMessage = JSON.stringify(responseData);
 
-  response.writeHead(200, { 'Content-Type': 'application/json' });
-
-  if (request.method === 'GET') {
-    message = 'The page you are looking for was not found.';
-    response.write(responseMessage);
-  }
+  message = 'The page you are looking for was not found.';
+  writeResponse(request, response, 404, responseMessage);
 };
 
-const addUser = (request, response) => {
-  const message = 'User added';
+const addBook = (request, response) => {
+  const message = 'Book added';
   console.log(message);
 
   const responseData = {
-    message,
-    id: 'addUser',
-    users,
-  };
+    message: message,
+    id: 'addBook',
+  }
 
-  const { name, age } = request.body;
+  const { title, author } = request.body;
 
-  if (!name || !age) {
+  if (!title || !author) {
     const obj = {
       message: 'Both fields are required',
       id: 'missingData',
@@ -83,11 +63,11 @@ const addUser = (request, response) => {
   }
   let statusCode = 204;
 
-  if (!users[name]) {
+  if (!users[title]) {
     statusCode = 201;
-    users[name] = { name };
+    users[title] = { title };
   }
-  users[name].age = age;
+  users[title].author = author;
 
   if (statusCode === 201) {
     const obj = {
@@ -97,8 +77,46 @@ const addUser = (request, response) => {
     return;
   }
   writeResponse(request, response, statusCode, {});
-};
+}
+
+// const addUser = (request, response) => {
+//   const message = 'User added';
+//   console.log(message);
+
+//   const responseData = {
+//     message,
+//     id: 'addUser',
+//     users,
+//   };
+
+//   const { name, age } = request.body;
+
+//   if (!name || !age) {
+//     const obj = {
+//       message: 'Both fields are required',
+//       id: 'missingData',
+//     };
+//     writeResponse(request, response, 400, obj);
+//     return;
+//   }
+//   let statusCode = 204;
+
+//   if (!users[name]) {
+//     statusCode = 201;
+//     users[name] = { name };
+//   }
+//   users[name].age = age;
+
+//   if (statusCode === 201) {
+//     const obj = {
+//       message: 'Created Successfully',
+//     };
+//     writeResponse(request, response, statusCode, obj);
+//     return;
+//   }
+//   writeResponse(request, response, statusCode, {});
+// };
 
 module.exports = {
-  getUsers, notFound, addUser, testRequest,
+  notFound, testRequest, addBook,
 };

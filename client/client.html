@@ -54,10 +54,14 @@
         const init = () => {
 
             const button = document.querySelector("#test-button");
+            const addButton = document.querySelector("#add-button");
+
+            const title = document.querySelector("#titleField").value;
+            const author = document.querySelector("#authorField").value;
             
             button.onclick = () => { sendFetchRequest("/test", "application/json", "GET"); };
 
-        //   addButton.onclick = () => { sendFetchRequest("/addUser", "application/json", "POST", {name, age}); };
+            addButton.onclick = () => { sendFetchRequest("/addBook", "application/json", "POST", {title, author}); };
         //   getButton.onclick = () => { sendFetchRequest(urlSelector.value, "application/json", methodSelector.value.toUpperCase()); };
     
         }
@@ -67,6 +71,13 @@
 <body>
     <section>
         <button id="test-button">Send Request</button>
+        <form id="form" action="/addBook" method="post">
+          <label for="title">Title: </label>
+          <input id="titleField" type="text" name="title" />
+          <label for="author">Author: </label>
+          <input id="authorField" type="text" name="author"/>
+        </form>
+        <button id="add-button">Add a Book</button>
     </section>
     <section id="content">
     </section>
