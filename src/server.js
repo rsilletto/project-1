@@ -13,6 +13,7 @@ const getGrabbers = {
   '/notReal': api.notFound,
   '/test': api.testRequest,
   '/getTitles': api.getTitles,
+  '/getAuthors': api.getAuthors,
 };
 
 const postHandlers = {

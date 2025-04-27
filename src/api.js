@@ -90,12 +90,7 @@ const getTitles = (request, response) => {
 
   let titlesArr;
 
-  // for(const object of data){
-  //   // titlesArr.push(object["title"]);
-  // }
   titlesArr = data.map( (item) => item["title"] );
-
-  console.log(titlesArr);
 
   const responseData = {
     message: message,
@@ -107,6 +102,23 @@ const getTitles = (request, response) => {
   writeResponse(request, response, 200, responseMessage);
 }
 
+const getAuthors = (request, response) => {
+  const message = "Authors requested";
+
+  let authorsArr;
+
+  authorsArr = [...new Set(data.map( (item) => item["author"] ))];
+
+  const responseData = {
+    message: message,
+    id: "getAuthors",
+    data: authorsArr,
+  }
+
+  const responseMessage = JSON.stringify(responseData);
+  writeResponse(request, response, 200, responseMessage);
+}
+
 module.exports = {
-  notFound, testRequest, addBook, getTitles,
+  notFound, testRequest, addBook, getTitles, getAuthors,
 };
