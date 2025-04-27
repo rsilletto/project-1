@@ -85,6 +85,28 @@ const addBook = (request, response) => {
   writeResponse(request, response, statusCode, {});
 }
 
+const getTitles = (request, response) => {
+  const message = "Titles requested";
+
+  let titlesArr;
+
+  // for(const object of data){
+  //   // titlesArr.push(object["title"]);
+  // }
+  titlesArr = data.map( (item) => item["title"] );
+
+  console.log(titlesArr);
+
+  const responseData = {
+    message: message,
+    id: "getTitles",
+    data: titlesArr,
+  }
+
+  const responseMessage = JSON.stringify(responseData);
+  writeResponse(request, response, 200, responseMessage);
+}
+
 module.exports = {
-  notFound, testRequest, addBook,
+  notFound, testRequest, addBook, getTitles,
 };
