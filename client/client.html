@@ -55,6 +55,7 @@
 
             const button = document.querySelector("#test-button");
             const addButton = document.querySelector("#add-button");
+            const titlesButton = document.querySelector("#titles-button");
 
             const title = document.querySelector("#titleField").value;
             const author = document.querySelector("#authorField").value;
@@ -63,7 +64,7 @@
 
             addButton.onclick = () => { sendFetchRequest("/addBook", "application/json", "POST", {title, author}); };
         //   getButton.onclick = () => { sendFetchRequest(urlSelector.value, "application/json", methodSelector.value.toUpperCase()); };
-    
+            titlesButton.onclick = () => { sendFetchRequest("/getTitles", "application/json", "GET"); }
         }
         window.onload = init;
       </script>
@@ -76,8 +77,9 @@
           <input id="titleField" type="text" name="title" />
           <label for="author">Author: </label>
           <input id="authorField" type="text" name="author"/>
+          <input type="submit" id = "add-button" value="Add Book" />
         </form>
-        <button id="add-button">Add a Book</button>
+        <button id="titles-button">Get Titles</button>
     </section>
     <section id="content">
     </section>
