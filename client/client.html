@@ -57,6 +57,7 @@
             const addButton = document.querySelector("#add-button");
             const titlesButton = document.querySelector("#titles-button");
             const authorsButton = document.querySelector("#authors-button");
+            const recentsButton = document.querySelector("#recents-button");
 
             const title = document.querySelector("#titleField").value;
             const author = document.querySelector("#authorField").value;
@@ -67,6 +68,7 @@
         //   getButton.onclick = () => { sendFetchRequest(urlSelector.value, "application/json", methodSelector.value.toUpperCase()); };
             titlesButton.onclick = () => { sendFetchRequest("/getTitles", "application/json", "GET"); };
             authorsButton.onclick = () => { sendFetchRequest("/getAuthors", "/application/json", "GET"); };
+            recentsButton.onclick = () => { sendFetchRequest("/getRecents", "application/json", "GET"); };
 
         }
         window.onload = init;
@@ -74,7 +76,7 @@
 </head>
 <body>
     <section>
-        <button id="test-button">Send Request</button>
+        <button id="test-button">Get Data</button>
         <form id="form" action="/addBook" method="post">
           <label for="title">Title: </label>
           <input id="titleField" type="text" name="title" />
@@ -84,6 +86,7 @@
         </form>
         <button id="titles-button">Get Titles</button>
         <button id="authors-button">Get Authors</button>
+        <button id="recents-button">Get Recent Titles</button>
     </section>
     <section id="content">
     </section>

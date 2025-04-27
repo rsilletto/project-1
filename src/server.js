@@ -11,9 +11,10 @@ const getGrabbers = {
   '/style.css': htmlHandler.getStyles,
   // '/getUsers': api.getUsers,
   '/notReal': api.notFound,
-  '/test': api.testRequest,
+  '/test': api.getData,
   '/getTitles': api.getTitles,
   '/getAuthors': api.getAuthors,
+  '/getRecents': api.getRecents,
 };
 
 const postHandlers = {

@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 const data = JSON.parse(fs.readFileSync(`${__dirname}/books.json`));
-//console.log(data.filter(x => x.country === 'Italy'));
 
 const writeResponse = (request, response, statusCode, data) => {
   response.writeHead(statusCode, { 'Content-Type': 'application/json' });
@@ -14,12 +13,12 @@ const writeResponse = (request, response, statusCode, data) => {
   response.end();
 };
 
-const testRequest = (request, response) => { // get Books
-    const message = "Test";
+const getData = (request, response) => { // get Books
+    const message = "All data retrieved";
 
     const responseData = {
         message: message,
-        id: 'test',
+        id: 'getData',
         data: data,
     }
 
@@ -119,6 +118,23 @@ const getAuthors = (request, response) => {
   writeResponse(request, response, 200, responseMessage);
 }
 
+const getRecents = (request, response) => {
+  const message = "Recent titles requested";
+
+  let recentsArr;
+
+  recentsArr = data.filter(x => x.year >= 1900);
+
+  const responseData = {
+    message: message,
+    id: "getRecents",
+    data: recentsArr,
+  }
+
+  const responseMessage = JSON.stringify(responseData);
+  writeResponse(request, response, 200, responseMessage);
+}
+
 module.exports = {
-  notFound, testRequest, addBook, getTitles, getAuthors,
+  notFound, getData, addBook, getTitles, getAuthors, getRecents,
 };
