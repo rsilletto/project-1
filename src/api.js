@@ -41,7 +41,7 @@ const notFound = (request, response) => {
 };
 
 const addBook = (request, response) => {
-  const message = 'Book added';
+  const message = 'Book data added';
   console.log(message);
 
   const responseData = {
@@ -81,7 +81,7 @@ const addBook = (request, response) => {
     writeResponse(request, response, statusCode, obj);
     return;
   }
-  writeResponse(request, response, statusCode, {});
+  writeResponse(request, response, statusCode, responseData);
 }
 
 const getTitles = (request, response) => {
@@ -135,6 +135,55 @@ const getRecents = (request, response) => {
   writeResponse(request, response, 200, responseMessage);
 }
 
+const addFav = (request, response) => {
+  const message = 'Favorite book added';
+  console.log(message);
+
+  const responseData = {
+    message: message,
+    id: 'addBook',
+    data: data,
+  }
+  console.log(request.body);
+  // let { favTitle, favAuthor } = request.body;
+  let title = request.body.title;
+  let author = request.body.author;
+
+  if (!title || !author) {
+    const obj = {
+      message: 'Both fields are required',
+      id: 'missingData',
+    };
+    writeResponse(request, response, 400, obj);
+    return;
+  }
+  let statusCode = 204;
+
+  if (!data[title]) {
+    statusCode = 201;
+    let newData = {
+      author: author,
+      title: title,
+      favorite: true,
+    };
+    data.push(newData);
+  }
+  // // favTitle = "Things Fall Apart";
+  // console.log(favTitle);
+  let fav = data.find(x => x.title === title);
+  fav.favorite = true;
+
+  if (statusCode === 201) {
+    const obj = {
+      message: 'Created Successfully',
+      data: data,
+    };
+    writeResponse(request, response, statusCode, obj);
+    return;
+  }
+  writeResponse(request, response, statusCode, responseData);
+}
+
 module.exports = {
-  notFound, getData, addBook, getTitles, getAuthors, getRecents,
+  notFound, getData, addBook, getTitles, getAuthors, getRecents, addFav,
 };

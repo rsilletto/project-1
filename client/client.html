@@ -39,7 +39,7 @@
           const options = {
             method: method,
             headers: { 'Accept': acceptedType, ...(body && {'Content-Type': 'application/json'}) },
-            ...(body && {body: JSON.stringify(body)})
+            ...(body && {body: JSON.stringify(body)}) // add Content-Length
           };
     
           try {
@@ -58,9 +58,13 @@
             const titlesButton = document.querySelector("#titles-button");
             const authorsButton = document.querySelector("#authors-button");
             const recentsButton = document.querySelector("#recents-button");
+            const favButton = document.querySelector("#add-fav");
 
             const title = document.querySelector("#titleField").value;
             const author = document.querySelector("#authorField").value;
+
+            const favTitle = document.querySelector("#titleField-fav").value;
+            const favAuthor = document.querySelector("#authorField-fav").value;
             
             button.onclick = () => { sendFetchRequest("/test", "application/json", "GET"); };
 
@@ -69,6 +73,7 @@
             titlesButton.onclick = () => { sendFetchRequest("/getTitles", "application/json", "GET"); };
             authorsButton.onclick = () => { sendFetchRequest("/getAuthors", "/application/json", "GET"); };
             recentsButton.onclick = () => { sendFetchRequest("/getRecents", "application/json", "GET"); };
+            favButton.onclick = () => { sendFetchRequest("/addFav", "application/json", "POST", {favTitle, favAuthor}); };
 
         }
         window.onload = init;
@@ -87,6 +92,13 @@
         <button id="titles-button">Get Titles</button>
         <button id="authors-button">Get Authors</button>
         <button id="recents-button">Get Recent Titles</button>
+        <form id="form" action="/addFav" method="post">
+          <label for="title">Title: </label>
+          <input id="titleField-fav" type="text" name="title" />
+          <label for="author">Author: </label>
+          <input id="authorField-fav" type="text" name="author"/>
+          <input type="submit" id = "add-fav" value="Add Favorite" />
+        </form>
     </section>
     <section id="content">
     </section>

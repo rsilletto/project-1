@@ -9,7 +9,6 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const getGrabbers = {
   '/': htmlHandler.getIndex,
   '/style.css': htmlHandler.getStyles,
-  // '/getUsers': api.getUsers,
   '/notReal': api.notFound,
   '/test': api.getData,
   '/getTitles': api.getTitles,
@@ -18,8 +17,8 @@ const getGrabbers = {
 };
 
 const postHandlers = {
-  // '/addUser': api.addUser,
   '/addBook': api.addBook,
+  '/addFav': api.addFav,
 };
 
 const handlePost = (request, response, poster) => {
