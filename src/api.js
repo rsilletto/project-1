@@ -1,12 +1,19 @@
 const fs = require('fs');
 
-const data = JSON.parse(fs.readFileSync(`${__dirname}/books.json`));
+const books = JSON.parse(fs.readFileSync(`${__dirname}/books.json`));
 
 const writeResponse = (request, response, statusCode, data) => {
-  response.writeHead(statusCode, { 'Content-Type': 'application/json' });
+  const responseJson = JSON.stringify(data);
+
+  response.writeHead(
+    statusCode,
+    {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(responseJson, 'utf8'),
+    },
+  );
 
   if (request.method !== 'HEAD' && statusCode !== 204) {
-    const responseJson = JSON.stringify(data);
     response.write(responseJson);
   }
 
@@ -14,17 +21,17 @@ const writeResponse = (request, response, statusCode, data) => {
 };
 
 const getData = (request, response) => { // get Books
-    const message = "All data retrieved";
+  const message = 'All data retrieved';
 
-    const responseData = {
-        message: message,
-        id: 'getData',
-        data: data,
-    }
+  const responseData = {
+    message,
+    id: 'getData',
+    data: books,
+  };
 
-    const responseMessage = JSON.stringify(responseData);
-    writeResponse(request, response, 200, responseMessage);
-}
+  // const responseMessage = JSON.stringify(responseData);
+  writeResponse(request, response, 200, responseData);
+};
 
 const notFound = (request, response) => {
   let message = '';
@@ -34,10 +41,8 @@ const notFound = (request, response) => {
     id: 'notFound',
   };
 
-  const responseMessage = JSON.stringify(responseData);
-
   message = 'The page you are looking for was not found.';
-  writeResponse(request, response, 404, responseMessage);
+  writeResponse(request, response, 404, responseData);
 };
 
 const addBook = (request, response) => {
@@ -45,9 +50,9 @@ const addBook = (request, response) => {
   console.log(message);
 
   const responseData = {
-    message: message,
+    message,
     id: 'addBook',
-  }
+  };
 
   const { title, author } = request.body;
 
@@ -61,93 +66,83 @@ const addBook = (request, response) => {
   }
   let statusCode = 204;
 
-  if (!data[title]) {
+  if (!books[title]) {
     statusCode = 201;
     // data[title] = { title };
-    let newData = {
-      author: author,
-      title: title,
+    const newData = {
+      author,
+      title,
     };
-    data.push(newData);
-
+    books.push(newData);
   }
   // data[title].author = author;
 
   if (statusCode === 201) {
     const obj = {
       message: 'Created Successfully',
-      data: data,
+      data: books,
     };
     writeResponse(request, response, statusCode, obj);
     return;
   }
   writeResponse(request, response, statusCode, responseData);
-}
+};
 
 const getTitles = (request, response) => {
-  const message = "Titles requested";
+  const message = 'Titles requested';
 
-  let titlesArr;
-
-  titlesArr = data.map( (item) => item["title"] );
+  const titlesArr = books.map((item) => item.title);
 
   const responseData = {
-    message: message,
-    id: "getTitles",
+    message,
+    id: 'getTitles',
     data: titlesArr,
-  }
+  };
 
-  const responseMessage = JSON.stringify(responseData);
-  writeResponse(request, response, 200, responseMessage);
-}
+  writeResponse(request, response, 200, responseData);
+};
 
 const getAuthors = (request, response) => {
-  const message = "Authors requested";
+  const message = 'Authors requested';
 
-  let authorsArr;
-
-  authorsArr = [...new Set(data.map( (item) => item["author"] ))];
+  const authorsArr = [...new Set(books.map((item) => item.author))];
 
   const responseData = {
-    message: message,
-    id: "getAuthors",
+    message,
+    id: 'getAuthors',
     data: authorsArr,
-  }
+  };
 
-  const responseMessage = JSON.stringify(responseData);
-  writeResponse(request, response, 200, responseMessage);
-}
+  writeResponse(request, response, 200, responseData);
+};
 
 const getRecents = (request, response) => {
-  const message = "Recent titles requested";
+  const message = 'Recent titles requested';
 
-  let recentsArr;
-
-  recentsArr = data.filter(x => x.year >= 1900);
+  const recentsArr = books.filter((x) => x.year >= 1900);
 
   const responseData = {
-    message: message,
-    id: "getRecents",
+    message,
+    id: 'getRecents',
     data: recentsArr,
-  }
+  };
 
-  const responseMessage = JSON.stringify(responseData);
-  writeResponse(request, response, 200, responseMessage);
-}
+  writeResponse(request, response, 200, responseData);
+};
 
 const addFav = (request, response) => {
   const message = 'Favorite book added';
   console.log(message);
 
   const responseData = {
-    message: message,
+    message,
     id: 'addBook',
-    data: data,
-  }
+    data: books,
+  };
   console.log(request.body);
   // let { favTitle, favAuthor } = request.body;
-  let title = request.body.title;
-  let author = request.body.author;
+  const { title } = request.body;
+  const { author } = request.body;
 
   if (!title || !author) {
     const obj = {
@@ -159,30 +154,30 @@ const addFav = (request, response) => {
   }
   let statusCode = 204;
 
-  if (!data[title]) {
+  if (!books[title]) {
     statusCode = 201;
-    let newData = {
-      author: author,
-      title: title,
+    const newData = {
+      author,
+      title,
       favorite: true,
     };
-    data.push(newData);
+    books.push(newData);
   }
   // // favTitle = "Things Fall Apart";
   // console.log(favTitle);
-  let fav = data.find(x => x.title === title);
+  const fav = books.find((x) => x.title === title);
   fav.favorite = true;
 
   if (statusCode === 201) {
     const obj = {
       message: 'Created Successfully',
-      data: data,
+      data: books,
     };
     writeResponse(request, response, statusCode, obj);
     return;
   }
   writeResponse(request, response, statusCode, responseData);
-}
+};
 
 module.exports = {
   notFound, getData, addBook, getTitles, getAuthors, getRecents, addFav,
