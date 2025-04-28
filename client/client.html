@@ -81,7 +81,27 @@
 </head>
 <body>
     <section>
-        <button id="test-button">Get Data</button>
+        <div>
+          <h2>Get All Books</h2>
+          <button id="test-button">Get Data</button>
+          <p></p>
+        </div>
+        <div>
+          <h2>Get Titles</h2>
+          <button id="titles-button">Get Titles</button>
+          <p></p>
+        </div>
+        <div>
+          <h2>Get Authors</h2>
+          <button id="authors-button">Get Authors</button>
+          <p></p>
+        </div>
+        <div>
+          <h2>Get Recent Titles</h2>
+          <button id="recents-button">Get Recent Titles</button>
+          <p></p>
+        </div>
+        <h2>Add a Book</h2>
         <form id="form" action="/addBook" method="post">
           <label for="title">Title: </label>
           <input id="titleField" type="text" name="title" />
@@ -89,9 +109,7 @@
           <input id="authorField" type="text" name="author"/>
           <input type="submit" id = "add-button" value="Add Book" />
         </form>
-        <button id="titles-button">Get Titles</button>
-        <button id="authors-button">Get Authors</button>
-        <button id="recents-button">Get Recent Titles</button>
+        <h2>Mark Favorites</h2>
         <form id="form" action="/addFav" method="post">
           <label for="title">Title: </label>
           <input id="titleField-fav" type="text" name="title" />
