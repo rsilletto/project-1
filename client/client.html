@@ -31,7 +31,7 @@
           }
     
           const responseData = await response.json();
-          content.innerHTML += `<h3>${JSON.stringify(responseData)}</h3>`;
+          content.innerHTML += `<h3>${responseData.message}</h3><h3>${responseData.id}</h3><h3>${JSON.stringify(responseData.data)}</h3>`;
         };
     
         // send fetch request
@@ -81,6 +81,8 @@
 </head>
 <body>
     <section>
+        <h1>Project 1 - Rose Silletto</h1>
+        <p><a href="docs.html">Documentation</a></p>
         <div>
           <h2>Get All Books</h2>
           <button id="test-button">Get Data</button>

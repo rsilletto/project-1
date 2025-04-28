@@ -1,5 +1,5 @@
 const http = require('http');
-const url = require('url');
+// const url = require('url');
 const query = require('querystring');
 const api = require('./api.js');
 const htmlHandler = require('./htmlResponses.js');
@@ -9,6 +9,7 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const getGrabbers = {
   '/': htmlHandler.getIndex,
   '/style.css': htmlHandler.getStyles,
+  // '/docs.html': htmlHandler.getDocs,
   '/notReal': api.notFound,
   '/test': api.getData,
   '/getTitles': api.getTitles,
