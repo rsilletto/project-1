@@ -13,10 +13,10 @@
             case 200: //Success
               content.innerHTML = `<b>Success</b>`;
               break;
-              case 201: //Get User - New User Created
-              content.innerHTML = `<b>Created</b>`;
+              case 201: // New Content Added
+              content.innerHTML = `<b>Data Added</b>`;
               break;
-              case 204: //Get User - User Updated
+              case 204: // Data Updated
               content.innerHTML = `<b>Updated (No Content)</b>`;
               break;
             case 400: //Bad Request
@@ -39,7 +39,7 @@
           const options = {
             method: method,
             headers: { 'Accept': acceptedType, ...(body && {'Content-Type': 'application/json'}) },
-            ...(body && {body: JSON.stringify(body)}) // add Content-Length
+            ...(body && {body: JSON.stringify(body)})
           };
     
           try {
@@ -69,7 +69,6 @@
             button.onclick = () => { sendFetchRequest("/test", "application/json", "GET"); };
 
             addButton.onclick = () => { sendFetchRequest("/addBook", "application/json", "POST", {title, author}); };
-        //   getButton.onclick = () => { sendFetchRequest(urlSelector.value, "application/json", methodSelector.value.toUpperCase()); };
             titlesButton.onclick = () => { sendFetchRequest("/getTitles", "application/json", "GET"); };
             authorsButton.onclick = () => { sendFetchRequest("/getAuthors", "/application/json", "GET"); };
             recentsButton.onclick = () => { sendFetchRequest("/getRecents", "application/json", "GET"); };

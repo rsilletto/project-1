@@ -1,5 +1,4 @@
 const http = require('http');
-// const url = require('url');
 const query = require('querystring');
 const api = require('./api.js');
 const htmlHandler = require('./htmlResponses.js');

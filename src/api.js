@@ -28,8 +28,6 @@ const getData = (request, response) => { // get Books
     id: 'getData',
     data: books,
   };
-
-  // const responseMessage = JSON.stringify(responseData);
   writeResponse(request, response, 200, responseData);
 };
 
@@ -68,14 +66,12 @@ const addBook = (request, response) => {
 
   if (!books[title]) {
     statusCode = 201;
-    // data[title] = { title };
     const newData = {
       author,
       title,
     };
     books.push(newData);
   }
-  // data[title].author = author;
 
   if (statusCode === 201) {
     const obj = {
@@ -163,8 +159,6 @@ const addFav = (request, response) => {
     };
     books.push(newData);
   }
-  // // favTitle = "Things Fall Apart";
-  // console.log(favTitle);
   const fav = books.find((x) => x.title === title);
   fav.favorite = true;
 
